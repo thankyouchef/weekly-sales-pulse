@@ -58,3 +58,21 @@ def weekly_summary_pivot(fact: pd.DataFrame) -> pd.DataFrame:
     tbl.index = tbl.index.date
     tbl.reset_index(names="order_week", inplace=True)
     return tbl
+
+def filter_widgets_midwest(fact: pd.DataFrame) -> pd.DataFrame:
+    """
+    Practice .loc with a boolean mask and selected columns.
+    Keep only Widget sales in the Midwest region.
+    """
+    mask = (fact["product_name"] == "Widget") & (fact["region"] == "Midwest")
+    cols = ["order_date", "product_name", "region", "qty", "price", "revenue"]
+    return fact.loc[mask, cols]
+
+def sample_iloc_slice(fact: pd.DataFrame) -> pd.DataFrame:
+    """
+    Practice .iloc with positional selection:
+    first 5 rows, and columns by position [0, 1, 4, 10] → (order_date, order_week, customer_id, revenue).
+    """
+    # guard against short frames
+    end = min(5, len(fact))
+    return fact.iloc[0:end, [0, 1, 6, 10]].copy()
